@@ -27,8 +27,11 @@ function main(){
     }
     else if(user_input == 'p'){
       console.log(`playing ${song_names[i]}`)
+      const song_path = path.join(path_to_music,music_files[i])
+
+      const cmd = spawn('mpv', [song_path])
+      cmd.stdout.on('data', (i)=>{console.log(i.toString())})
     }
   })
-
 }
 main()
