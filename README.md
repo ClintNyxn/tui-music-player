@@ -1,1 +1,1 @@
-# tui-music-player
+a tui for listening to music
