@@ -2,9 +2,11 @@ const os = require("os")
 const fs = require("fs")
 const path = require("path")
 const process = require("process")
+const {spawn} = require("child_process")
 
 const path_to_music = path.join(os.homedir(), 'Music')
 const music_files = fs.readdirSync(path_to_music).filter(i => i.endsWith('.mp3'))
+console.log(music_files)
 
 let song_names = music_files.map(i=> i.split('.')[0])
 
@@ -23,7 +25,9 @@ function main(){
     else if (user_input === "k" && i > 0) {
       i -= 1
     }
-    console.log(i)
+    else if(user_input == 'p'){
+      console.log(`playing ${song_names[i]}`)
+    }
   })
 
 }
