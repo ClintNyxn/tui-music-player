@@ -1,6 +1,7 @@
 a tui for listening to music
 
 miro - overview flow diagram & wireframe 
+## test
 
 10 sept thursday
 - added vim bindings to navigate bw songs
