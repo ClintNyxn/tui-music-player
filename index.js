@@ -29,7 +29,17 @@ function main(){
       console.log(`playing ${song_names[i]}`)
       const song_path = path.join(path_to_music,music_files[i])
 
-      const cmd = spawn('mpv', [song_path])
+      let program;
+
+      if (os.platform() == 'linux'){
+        program = 'mpv'
+      }else if (os.platform() == "darwin"){
+        program = 'afplay'
+      }else if( os.platform() == "win32"){
+        console.log("you dont deserve music")
+      }
+
+      const cmd = spawn(program, [song_path])
       cmd.stdout.on('data', (i)=>{console.log(i.toString())})
     }
   })
