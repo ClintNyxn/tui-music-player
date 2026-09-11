@@ -12,28 +12,42 @@ const music_files = fs
 let song_names = music_files.map((i) => i.split(".")[0]);
 
 function main() {
-  console.log("Select a song from:\n");
-  for (let i in song_names) {
-    console.log(`${Number(i) + 1}. ${song_names[i]}`);
-  }
-  console.log("\n");
 
   let i = 0;
   let paused = false;
   let curr_play = null;
 
+  function intro(){
+    console.clear()
+    console.log("Select a song from:\n");
+    console.log(paused?"paused\n":"\n");
+    for (let j in song_names) {
+      console.log(`${i==j? '->':Number(j) + 1+"."} ${song_names[j]}`);
+    }
+    console.log("\n");
+  }
+
+  intro()
+
+
+  // business logic page??
+
+
   function play_this(i) {
+
     console.log(`playing ${song_names[i]}\n`);
     const song_path = path.join(path_to_music, music_files[i]);
+
     let program = os.platform() == "darwin" ? "afplay" : "mpv";
 
     if (curr_play) {
       curr_play.kill();
     }
+
     curr_play = spawn(program, [song_path]);
-    curr_play.stdout.on("data", (i) => {
-      console.log(i.toString());
-    });
+    curr_play.stdout.on("data", (i) => { console.log(i.toString()); });
+    paused = false
+    intro()
   }
 
   function kill_this(curr_play) {
@@ -43,8 +57,12 @@ function main() {
     } else {
       curr_play.kill("SIGSTOP");
       paused = true;
+      intro()
     }
   }
+
+  process.stdin.setEncoding('utf-8')
+  process.stdin.setRawMode(true)
 
   process.stdin.on("data", (chunk) => {
     let user_input = chunk.toString().trim();
@@ -54,53 +72,44 @@ function main() {
 
       if (num > 0 && num <= song_names.length) {
         i = num - 1;
-        console.log(
-          `Selected Song : ${song_names[i]}\npress p and enter to play\n`,
-        );
+        intro()
+        // console.log( `Selected Song : ${song_names[i]}\npress p and enter to play\n`,);
       } else {
-        console.log("Select from available list\n");
+        // console.log("Select from available list\n");
       }
     } else if (user_input === "j") {
       if (i < song_names.length - 1) {
         i += 1;
-        console.log(
-          `Selected Song : ${song_names[i]}\npress p and enter to play\n`,
-        );
-      } else {
-        console.log(`end of list`);
+        process.stdout.write(`\x1b[${song_names.length}A`)
+        intro()
+        // console.log( `Selected Song : ${song_names[i]}\npress p and enter to play\n`,);
       }
     } else if (user_input === "k") {
       if (i > 0) {
         i -= 1;
-        console.log(
-          `Selected Song : ${song_names[i]}\npress p and enter to play\n`,
-        );
-      } else {
-        console.log("end of list");
-      }
-      console.log(
-        `Selected Song : ${song_names[i]}\npress p and enter to play\n`,
-      );
+        process.stdout.write('\x1b[2K')
+        process.stdout.write(`\x1b[${song_names.length}B`)
+        intro()
+        // console.log( `Selected Song : ${song_names[i]}\npress p and enter to play\n`,);
+      }      
     } else if (user_input == "p") {
       play_this(i);
-      console.log(`playing Song : ${song_names[i]}\n`);
 
     } else if (user_input == "P") {
       // no functionality for linux yet
       kill_this(curr_play);
 
     } else if (user_input == "L") {
-      if (curr_play) {
-        curr_play.kill();
+      if (i < song_names.length-1) {
         i += 1;
         play_this(i);
       }
     } else if (user_input == "H") {
-      if (curr_play) {
-        curr_play.kill();
+      if (i > 0) {
         i -= 1;
         play_this(i);
       }
+
     } else if (user_input == "q") {
       console.log("Exited Player");
       curr_play.kill();
@@ -112,4 +121,3 @@ function main() {
   });
 }
 main();
-
