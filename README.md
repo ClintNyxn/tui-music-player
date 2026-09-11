@@ -10,15 +10,20 @@ miro - overview flow diagram & wireframe
 11 sept friday
 - [x] only one song plays at a time
 - [x] formatted 
-- [ ] pausing / playing
-- [ ] prev / next
-- [ ] added ui 
+- [x] pausing / playing
+- [x] prev / next
+- [x] added ui 
 
 12 sept saturday
-
+- [ ] finish ui
+- [ ] make interactable
+- [ ] make modules
+- [ ] add to server??
 
 13 sept sunday
-
+- [ ] fine touches
+- [ ] have finished product
 
 ## future improvement options
 1. pause and play for linux since it's using mpv
+2. afplay itself is garbage and play/pause just stops the process not afplay.
