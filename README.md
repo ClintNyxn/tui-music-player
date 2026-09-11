@@ -1,7 +1,6 @@
 a tui for listening to music
 
 miro - overview flow diagram & wireframe 
-## test
 
 10 sept thursday
 - added vim bindings to navigate bw songs
@@ -9,10 +8,11 @@ miro - overview flow diagram & wireframe
 - made os-based playing system
 
 11 sept friday
-- only one song plays at a time
-- pausing / playing
-- prev / next
-- added ui 
+[x] only one song plays at a time
+[] formatted 
+[] pausing / playing
+[] prev / next
+[] added ui 
 
 12 sept saturday
 
